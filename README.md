@@ -20,8 +20,7 @@ cat \*PE.fa > combined.fa
 
 java -jar trimmomatic-0.38.jar PE -phred33 DNA1.1.fq.gz DNA1.2.fq.gz DNA1_pe.1.fq.gz DNA1_se.1.fq.gz DNA1_pe.2.fq.gz DNA1_se.2.fq.gz ILLUMINACLIP:combined.fa:2:30:10:8:TRUE LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 -threads 18
 
-# Mapping with Bowtie2 #
-- only one of the read pairs were used for sequence depth analysis
+- Mapping with Bowtie2 (only one of the read pairs were used for sequence depth analysis)
 
 bowtie2 -x psyllid_dovetail.fasta -U DNA1_pe.1.fq.gz -S DNA1.sam --threads 18
 
