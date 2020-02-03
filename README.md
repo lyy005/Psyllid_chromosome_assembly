@@ -29,9 +29,9 @@ This document is a walkthrough of the methods and code used to analyze the chrom
         samtools sort DNA1.bam -o DNA1.sorted.bam --threads 20
         samtools index DNA1.sorted.bam
 
-#Estimate sequencing depth in sliding windows
+- Estimate sequencing depth in sliding windows
 
-    mosdepth -b psyllid.windows.bed -f psyllid_dovetail.fasta -n -t 20 DNA1_mosdepth DNA1.sorted.bam
+        mosdepth -b psyllid.windows.bed -f psyllid_dovetail.fasta -n -t 20 DNA1_mosdepth DNA1.sorted.bam
 
 ## 2 - Genome Structural and Functional Annotation
 
