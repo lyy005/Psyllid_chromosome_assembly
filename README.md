@@ -22,17 +22,14 @@ This document is a walkthrough of the methods and code used to analyze the chrom
 
 - Make sliding windows
 
-    bedtools makewindows -g psyllid_genomeFile.txt -w 10000 -s 2000 > psyllid.windows.bed
+        bedtools makewindows -g psyllid_genomeFile.txt -w 10000 -s 2000 > psyllid.windows.bed
 
 - Mapping with Bowtie2 (only one of the read pairs were used for sequence depth analysis)
 
-    bowtie2 -x psyllid_dovetail.fasta -U DNA1_pe.1.fq.gz -S DNA1.sam --threads 18
-
-    samtools view -h -b -S DNA1.sam -o DNA1.bam --threads 20
-
-    samtools sort DNA1.bam -o DNA1.sorted.bam --threads 20
-
-    samtools index DNA1.sorted.bam
+        bowtie2 -x psyllid_dovetail.fasta -U DNA1_pe.1.fq.gz -S DNA1.sam --threads 18
+        samtools view -h -b -S DNA1.sam -o DNA1.bam --threads 20
+        samtools sort DNA1.bam -o DNA1.sorted.bam --threads 20
+        samtools index DNA1.sorted.bam
 
 #Estimate sequencing depth in sliding windows
 
