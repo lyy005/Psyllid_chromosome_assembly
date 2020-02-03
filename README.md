@@ -20,13 +20,23 @@ cat \*PE.fa > combined.fa
 
 java -jar trimmomatic-0.38.jar PE -phred33 DNA1.1.fq.gz DNA1.2.fq.gz DNA1_pe.1.fq.gz DNA1_se.1.fq.gz DNA1_pe.2.fq.gz DNA1_se.2.fq.gz ILLUMINACLIP:combined.fa:2:30:10:8:TRUE LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 -threads 18
 
+- Make sliding windows
+
+bedtools makewindows -g psyllid_genomeFile.txt -w 10000 -s 2000 > psyllid.windows.bed
+
 - Mapping with Bowtie2 (only one of the read pairs were used for sequence depth analysis)
 
 bowtie2 -x psyllid_dovetail.fasta -U DNA1_pe.1.fq.gz -S DNA1.sam --threads 18
 
-- Make sliding windows
+samtools view -h -b -S DNA1.sam -o DNA1.bam --threads 20
 
-bedtools makewindows -g psyllid_genomeFile.txt -w 10000 -s 2000 > psyllid.windows.bed
+samtools sort DNA1.bam -o DNA1.sorted.bam --threads 20
+
+samtools index DNA1.sorted.bam
+
+#Estimate sequencing depth in sliding windows
+
+mosdepth -b psyllid.windows.bed -f psyllid_dovetail.fasta -n -t 20 DNA1_mosdepth DNA1.sorted.bam
 
 ## 2 - Genome Structural and Functional Annotation
 
