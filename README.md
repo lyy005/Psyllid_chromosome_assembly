@@ -45,7 +45,7 @@ This document is a walkthrough of the methods and code used to analyze the chrom
         samtools index combined.sorted.bam
         
         # Annotation with BRAKER2
-        braker.pl --genome=psyllid_dovetail.fasta --bam=./PVEN.00-female/combined.sorted.bam,./PVEN.00-male/combined.sorted.bam,./PVEN.00-nymphs/combined.sorted.bam,./sloan_bact1/combined.sorted.bam,./sloan_bact2/combined.sorted.bam,./sloan_bact3/combined.sorted.bam,./sloan_body1/combined.sorted.bam,./sloan_body2/combined.sorted.bam,./sloan_body3/combined.sorted.bam,trans1.sorted.bam,trans2.sorted.bam,trans3.sorted.bam,trans4.sorted.bam,trans5.sorted.bam,trans6.sorted.bam,trans7.sorted.bam --softmasking --workingdir=run_all_RNAonly --species=pven_all_RNAonly --cores=32 --gff3
+        braker.pl --genome=psyllid_dovetail.fasta --bam=PVEN.00-female.sorted.bam,PVEN.00-male.sorted.bam,PVEN.00-nymphs.sorted.bam,sloan_bact1.sorted.bam,sloan_bact2.sorted.bam,sloan_bact3.sorted.bam,sloan_body1.sorted.bam,sloan_body2.sorted.bam,sloan_body3.sorted.bam,trans1.sorted.bam,trans2.sorted.bam,trans3.sorted.bam,trans4.sorted.bam,trans5.sorted.bam,trans6.sorted.bam,trans7.sorted.bam --softmasking --workingdir=run_all_RNAonly --species=pven_all_RNAonly --cores=32 --gff3
         
         
 ### 2.2 - Genome functional annotation using GhostKOALA and PANNZER2
@@ -57,6 +57,26 @@ This document is a walkthrough of the methods and code used to analyze the chrom
      PANNER2: http://ekhidna2.biocenter.helsinki.fi/sanspanz/
 
 ## 3 - Genome Synteny Analysis
+- Run ortholog assignment using OrthoVenn (https://orthovenn2.bioinfotoolkits.net/home)
+- Parse the result from OrthoVenn:
+        
+        # Find single-copy orthologs:
+        less -S ortho_all_clusters.txt  | grep "Pvenusta" | grep "Apisum" | grep "Rmaidis" | perl -e 'while(<>){@a=split; if(@a == 3){print} }' > singleCopy.txt
+        
+        # Convert GFF3 file to MCScanX inputs
+        perl combine_locations_in_gff_RBHversion_aphid2maidis.pl singleCopy.homology aphid.ncbi.gff3 maidis.gff aphid2maidis.gff_old
+        perl combine_locations_in_gff_RBHversion_aphid2psyllid.pl singleCopy.homology psyllid_RNAonly.augustus.hints.gff3 aphid.ncbi.gff3 aphid2psyllid.gff_old
+        
+        # Combine aphid2maidis and aphid2psyllid files
+        cat aphid2maidis.gff_old aphid2psyllid.gff_old | sort | uniq > singleCopy.gff_old
+        
+        # Convert GFF3 file to MCScanX input
+        perl make_gff_file.pl singleCopy.gff_old chr.list singleCopy.gff
+        
+        # Run MCScanX_h
+        MCScanX_h singleCopy
+        
+- Visualize synteny using SynVisio: https://synvisio.github.io/#/
 
 ## 4 - Location of Sex-biased Genes
 
