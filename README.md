@@ -10,27 +10,23 @@ This document is a walkthrough of the methods and code used to analyze the chrom
 
 ### 1.2 - X chromosome assignment based on sequencing depth of males and females
 
-- Quality control
-
+        # Quality control
         # In the trimmomatic adaptor folder:
         cat \*PE.fa > combined.fa
 
         # Running trimmomatic
         java -jar trimmomatic-0.38.jar PE -phred33 DNA1.1.fq.gz DNA1.2.fq.gz DNA1_pe.1.fq.gz DNA1_se.1.fq.gz DNA1_pe.2.fq.gz DNA1_se.2.fq.gz ILLUMINACLIP:combined.fa:2:30:10:8:TRUE LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 -threads 18
 
-- Make sliding windows
-
+        # Make sliding windows
         bedtools makewindows -g psyllid_genomeFile.txt -w 10000 -s 2000 > psyllid.windows.bed
 
-- Mapping with Bowtie2 (only one of the read pairs were used for sequence depth analysis)
-
+        # Mapping with Bowtie2 (only one of the read pairs were used for sequence depth analysis)
         bowtie2 -x psyllid_dovetail.fasta -U DNA1_pe.1.fq.gz -S DNA1.sam --threads 18
         samtools view -h -b -S DNA1.sam -o DNA1.bam --threads 20
         samtools sort DNA1.bam -o DNA1.sorted.bam --threads 20
         samtools index DNA1.sorted.bam
 
-- Estimate sequencing depth in sliding windows
-
+        # Estimate sequencing depth in sliding windows
         mosdepth -b psyllid.windows.bed -f psyllid_dovetail.fasta -n -t 20 DNA1_mosdepth DNA1.sorted.bam
 
 ## 2 - Genome Structural and Functional Annotation
