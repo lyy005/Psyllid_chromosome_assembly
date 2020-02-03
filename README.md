@@ -50,6 +50,10 @@ This document is a walkthrough of the methods and code used to analyze the chrom
         
 ### 2.2 - Genome functional annotation using GhostKOALA and PANNZER2
 
+- Submit annotated amino acid sequences to: 
+        GhostKOALA: https://www.kegg.jp/ghostkoala/
+        PANNER2: http://ekhidna2.biocenter.helsinki.fi/sanspanz/
+
 ## 3 - Genome Synteny Analysis
 
 ## 4 - Location of Sex-biased Genes
