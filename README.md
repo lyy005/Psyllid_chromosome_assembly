@@ -76,7 +76,7 @@ This document is a walkthrough of the methods and code used to analyze the chrom
         # Run MCScanX_h
         MCScanX_h singleCopy
         
-- Visualize synteny using SynVisio: https://synvisio.github.io/#/
+- Visualize synteny using SynVisio: https://synvisio.github.io/
 
 ## 4 - Location of Sex-biased Genes
 
