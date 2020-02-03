@@ -13,9 +13,11 @@ python run_BUSCO.py -i psyllid_dovetail.fasta -l ./insecta_odb9/ -m geno -f -o p
 - Quality control
 
 #in the trimmomatic adaptor folder:
+
 cat \*PE.fa > combined.fa
 
 #running trimmomatic
+
 java -jar trimmomatic-0.38.jar PE -phred33 DNA1.1.fq.gz DNA1.2.fq.gz DNA1_pe.1.fq.gz DNA1_se.1.fq.gz DNA1_pe.2.fq.gz DNA1_se.2.fq.gz ILLUMINACLIP:combined.fa:2:30:10:8:TRUE LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 -threads 18
 
 # Mapping with Bowtie2 #
