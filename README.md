@@ -86,5 +86,5 @@ This document is a walkthrough of the methods and code used to analyze the chrom
 
 ## Citation
 
-Li Y, Bo Zhang, Nancy A. Moran, The Aphid X Chromosome is a Dangerous Place for Functionally Important Genes: Diverse Evolution of Hemipteran Genomes Based on Chromosome-level Assemblies.
+Li Y., Zhang B., Moran N.A., 2020. The Aphid X Chromosome is a Dangerous Place for Functionally Important Genes: Diverse Evolution of Hemipteran Genomes Based on Chromosome-level Assemblies.
 
