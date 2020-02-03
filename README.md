@@ -37,6 +37,21 @@ This document is a walkthrough of the methods and code used to analyze the chrom
 
 ### 2.1 - Genome structural annotation using BRAKER2
 
+- Mapping RNA-seq data to the genome
+           
+        # Trimmomatic
+        java -jar trimmomatic-0.38.jar PE -phred33 1.fastq 2.fastq pe.1.fq.gz se.1.fq.gz pe.2.fq.gz se.2.fq.gz ILLUMINACLIP:combined.fa:2:30:10:8:TRUE LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 -threads 18
+        
+        # Mapping using HISAT2
+        hisat2 -x ../psyllid_dovetail.fasta -1 pe.1.fq.gz -2 pe.2.fq.gz -U se.1.fq.gz,se.2.fq.gz -S combined.sam --phred33 --novel-splicesite-outfile combined.junctions --rna-strandness RF --dta -t --threads 16
+        samtools view -h -b -S combined.sam -o combined.bam --threads 20
+        samtools sort combined.bam -o combined.sorted.bam --threads 20
+        samtools index combined.sorted.bam
+        
+        # Annotation with BRAKER2
+        braker.pl --genome=psyllid_dovetail.fasta --bam=./PVEN.00-female/combined.sorted.bam,./PVEN.00-male/combined.sorted.bam,./PVEN.00-nymphs/combined.sorted.bam,./sloan_bact1/combined.sorted.bam,./sloan_bact2/combined.sorted.bam,./sloan_bact3/combined.sorted.bam,./sloan_body1/combined.sorted.bam,./sloan_body2/combined.sorted.bam,./sloan_body3/combined.sorted.bam,trans1.sorted.bam,trans2.sorted.bam,trans3.sorted.bam,trans4.sorted.bam,trans5.sorted.bam,trans6.sorted.bam,trans7.sorted.bam --softmasking --workingdir=run_all_RNAonly --species=pven_all_RNAonly --cores=32 --gff3
+        
+        
 ### 2.2 - Genome functional annotation using GhostKOALA and PANNZER2
 
 ## 3 - Genome Synteny Analysis
