@@ -24,7 +24,8 @@ java -jar trimmomatic-0.38.jar PE -phred33 DNA1.1.fq.gz DNA1.2.fq.gz DNA1_pe.1.f
 
 bowtie2 -x psyllid_dovetail.fasta -U DNA1_pe.1.fq.gz -S DNA1.sam --threads 18
 
-# make sliding windows #
+- make sliding windows
+
 bedtools makewindows -g psyllid_genomeFile.txt -w 10000 -s 2000 > psyllid.windows.bed
 
 ## 2 - Genome Structural and Functional Annotation
