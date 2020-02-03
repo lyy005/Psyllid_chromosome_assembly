@@ -6,7 +6,7 @@ This document is a walkthrough of the methods and code used to analyze the chrom
 
 ### 1.1 - BUSCO analysis
 
-python run_BUSCO.py -i psyllid_dovetail.fasta -l ./insecta_odb9/ -m geno -f -o psyllid_insecta -c 32
+    python run_BUSCO.py -i psyllid_dovetail.fasta -l ./insecta_odb9/ -m geno -f -o psyllid_insecta -c 32
 
 ### 1.2 - X chromosome assignment based on sequencing depth of males and females
 
