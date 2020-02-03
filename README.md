@@ -12,13 +12,11 @@ This document is a walkthrough of the methods and code used to analyze the chrom
 
 - Quality control
 
-#In the trimmomatic adaptor folder:
+        # In the trimmomatic adaptor folder:
+        cat \*PE.fa > combined.fa
 
-    cat \*PE.fa > combined.fa
-
-#Running trimmomatic
-
-    java -jar trimmomatic-0.38.jar PE -phred33 DNA1.1.fq.gz DNA1.2.fq.gz DNA1_pe.1.fq.gz DNA1_se.1.fq.gz DNA1_pe.2.fq.gz DNA1_se.2.fq.gz ILLUMINACLIP:combined.fa:2:30:10:8:TRUE LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 -threads 18
+        # Running trimmomatic
+        java -jar trimmomatic-0.38.jar PE -phred33 DNA1.1.fq.gz DNA1.2.fq.gz DNA1_pe.1.fq.gz DNA1_se.1.fq.gz DNA1_pe.2.fq.gz DNA1_se.2.fq.gz ILLUMINACLIP:combined.fa:2:30:10:8:TRUE LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 -threads 18
 
 - Make sliding windows
 
