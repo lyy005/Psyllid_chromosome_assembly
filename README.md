@@ -6,7 +6,19 @@ This document is a walkthrough of the methods and code used to analyze the chrom
 
 ### 1.1 - BUSCO analysis
 
+python run_BUSCO.py -i psyllid_dovetail.fasta -l ./insecta_odb9/ -m geno -f -o psyllid_insecta -c 32
+
 ### 1.2 - X chromosome assignment based on sequencing depth of males and females
+
+# Quality control #
+java -jar trimmomatic-0.38.jar PE -phred33 DNA1.1.fq.gz DNA1.2.fq.gz DNA1_pe.1.fq.gz DNA1_se.1.fq.gz DNA1_pe.2.fq.gz DNA1_se.2.fq.gz ILLUMINACLIP:combined.fa:2:30:10:8:TRUE LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 -threads 18
+
+# Mapping with Bowtie2 #
+- only one of the read pairs were used for sequence depth analysis
+bowtie2 -x psyllid_dovetail.fasta -U DNA1_pe.1.fq.gz -S DNA1.sam --threads 18
+
+# make sliding windows #
+bedtools makewindows -g psyllid_genomeFile.txt -w 10000 -s 2000 > psyllid.windows.bed
 
 ## 2 - Genome Structural and Functional Annotation
 
