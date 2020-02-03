@@ -10,7 +10,7 @@ python run_BUSCO.py -i psyllid_dovetail.fasta -l ./insecta_odb9/ -m geno -f -o p
 
 ### 1.2 - X chromosome assignment based on sequencing depth of males and females
 
-# Quality control #
+#### Quality control #
 java -jar trimmomatic-0.38.jar PE -phred33 DNA1.1.fq.gz DNA1.2.fq.gz DNA1_pe.1.fq.gz DNA1_se.1.fq.gz DNA1_pe.2.fq.gz DNA1_se.2.fq.gz ILLUMINACLIP:combined.fa:2:30:10:8:TRUE LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36 -threads 18
 
 # Mapping with Bowtie2 #
