@@ -80,6 +80,14 @@ This document is a walkthrough of the methods and code used to analyze the chrom
 
 ## 4 - Location of Sex-biased Genes
 
+- Count gene expression using HTSeq
+
+        # Run htseq on each sample
+        htseq-count -r pos -s no -m intersection-strict --type exon --idattr=Dbxref $i\.unstranded.combined.sorted.bam -f bam GCF_005508785.1_mt_combined.gff 1> $i\.step3_count_exon.table 2> $i\.step3_count_exon.log
+        
+        # Combine gene count table together
+        perl merge_htseq.pl *.step3_count_exon.modified_gff.table | perl -e 'while(<>){s/GeneID\://; print; }' > gene_counts.aphid_sex.table
+
 ## 5 - Location of Symbiosis-related Genes
 
 ## 6 - Estimating *dN/dS* ratios
