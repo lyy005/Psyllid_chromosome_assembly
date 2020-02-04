@@ -92,6 +92,8 @@ This document is a walkthrough of the methods and code used to analyze the chrom
 
 ## 6 - Estimating *dN/dS* ratios
 
+## 7 - Figures and Tests
+
 ## Citation
 
 Li Y., Zhang B., Moran N.A., 2020. The Aphid X Chromosome is a Dangerous Place for Functionally Important Genes: Diverse Evolution of Hemipteran Genomes Based on Chromosome-level Assemblies.
