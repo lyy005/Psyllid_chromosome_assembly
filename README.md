@@ -81,6 +81,7 @@ This document is a walkthrough of the methods and code used to analyze the chrom
 ## 4 - Location of Sex-biased Genes
 
 - Count gene expression using HTSeq
+- Data and Scripts are under ./step4_sex_biased/
 
         # Run htseq on each sample
         htseq-count -r pos -s no -m intersection-strict --type exon --idattr=Dbxref $i\.unstranded.combined.sorted.bam -f bam GCF_005508785.1_mt_combined.gff 1> $i\.step3_count_exon.table 2> $i\.step3_count_exon.log
@@ -90,9 +91,23 @@ This document is a walkthrough of the methods and code used to analyze the chrom
 
 ## 5 - Location of Symbiosis-related Genes
 
+- Data and Scripts are under ./step5_symbionsis_biased/
+
 ## 6 - Estimating *dN/dS* ratios
 
+- Data and Scripts are under ./step6_dNdS/
+
+        # A. pisum vs R. maidis
+        perl pick_sequences_on_list_parallel.pl combined.cds.fasta Apisum2Rmaidis.ortholog_singleCopy.list ./parallel_dNdS_apisum2rmaidis/ cds
+        
+        # copy batch_aln.aphid.sh in the folder ./parallel_dNdS_apisum2rmaidis/ and run the script
+
+        # P. venusta vs P. celti
+        perl pick_sequences_on_list_parallel.pl combined_pcelti.cds.fasta pven2pcelti.ortholog_singleCopy.list ./parallel_dNdS_pven2pcelti/ cds
+        # copy batch_aln.psyllid.sh in the folder ./parallel_dNdS_pven2pcelti/ and run the script
+
 ## 7 - Figures and Tests
+- Data and Scripts are under ./step7_figures/
 
 ## Citation
 
