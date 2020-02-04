@@ -1,0 +1,953 @@
+---
+title: "submission1"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+```{r chi2 test for gene locations}
+###
+# aphid 
+###
+
+# male biased genes
+test = matrix( c(12876, 4741, 1601, 756), nrow=2, ncol=2) # male vs all genes (including lnc RNA genes)
+chisq.test(test)
+
+# female
+test = matrix( c(12876, 4741, 1297, 280), nrow=2, ncol=2) # female vs all genes (including lnc RNA genes)
+chisq.test(test)
+
+# asexual
+test = matrix( c(12876, 4741, 503, 84), nrow=2, ncol=2) # asexual vs all genes (including lnc RNA genes)
+chisq.test(test)
+
+# unbiased genes
+test = matrix( c(12876, 4741, 6774, 1248), nrow=2, ncol=2) # asexual vs all genes (including lnc RNA genes)
+chisq.test(test)
+
+# unexpressed genes
+test = matrix( c(12876, 4741, 2810, 2490), nrow=2, ncol=2) # asexual vs all genes (including lnc RNA genes)
+chisq.test(test)
+
+# symbiosis-related genes
+test = matrix( c(12876, 4741, 141, 17), nrow=2, ncol=2) 
+chisq.test(test)
+
+# body-related genes
+test = matrix( c(12876, 4741, 516, 87), nrow=2, ncol=2) 
+chisq.test(test)
+
+# unbiased genes
+test = matrix( c(12876, 4741, 9114, 1602), nrow=2, ncol=2) 
+chisq.test(test)
+
+# unexpressed genes
+test = matrix( c(12876, 4741, 3214, 3152), nrow=2, ncol=2) 
+chisq.test(test)
+
+# EAA genes
+test = matrix( c(12876, 4741, 6, 1), nrow=2, ncol=2) 
+chisq.test(test)
+
+# HTG genes
+test = matrix( c(12876, 4741, 16, 0), nrow=2, ncol=2) 
+chisq.test(test)
+
+# mt rRNA genes
+test = matrix( c(12876, 4741, 41, 3), nrow=2, ncol=2) 
+chisq.test(test)
+
+# nuc rRNA genes
+test = matrix( c(12876, 4741, 98, 1), nrow=2, ncol=2) 
+chisq.test(test)
+
+# OXPHOS genes
+test = matrix( c(12876, 4741, 91, 12), nrow=2, ncol=2) 
+chisq.test(test)
+
+# mtGO
+test = matrix( c(12876, 4741, 1443, 500), nrow=2, ncol=2) 
+chisq.test(test)
+
+# mtGO single copy
+test = matrix( c(12876, 4741, 1080, 315), nrow=2, ncol=2) 
+chisq.test(test)
+
+# orthologs single copy
+test = matrix( c(12876, 4741, 8996, 2428), nrow=2, ncol=2) 
+chisq.test(test)
+
+# orthologs multi copy
+test = matrix( c(12876, 4741, 4273, 2527), nrow=2, ncol=2) 
+chisq.test(test)
+
+
+###
+# psyllid
+###
+# male biased genes
+test = matrix( c(15404, 1330, 1011, 64), nrow=2, ncol=2) 
+chisq.test(test)
+
+# female biased genes
+test = matrix( c(15404, 1330, 738, 74), nrow=2, ncol=2) 
+chisq.test(test)
+
+# unbiased genes
+test = matrix( c(15404, 1330, 6858, 600), nrow=2, ncol=2) 
+chisq.test(test)
+
+# female biased genes
+test = matrix( c(15404, 1330, 6799, 592), nrow=2, ncol=2) 
+chisq.test(test)
+
+# symbiosis-related genes
+test = matrix( c(15404, 1330, 1679, 139), nrow=2, ncol=2) 
+chisq.test(test)
+
+# body genes
+test = matrix( c(15404, 1330, 3063, 278), nrow=2, ncol=2) 
+chisq.test(test)
+
+# unbiased genes
+test = matrix( c(15404, 1330, 5819, 370), nrow=2, ncol=2) 
+chisq.test(test)
+
+# unexpressed genes
+test = matrix( c(15404, 1330, 4846, 543), nrow=2, ncol=2) 
+chisq.test(test)
+
+# EAA
+test = matrix( c(15404, 1330, 25, 1), nrow=2, ncol=2) 
+chisq.test(test)
+
+# HTG
+test = matrix( c(15404, 1330, 10, 0), nrow=2, ncol=2) 
+chisq.test(test)
+
+# mt rRNA
+test = matrix( c(15404, 1330, 37, 0), nrow=2, ncol=2) 
+chisq.test(test)
+
+# nuc rRNA
+test = matrix( c(15404, 1330, 71, 0), nrow=2, ncol=2) 
+chisq.test(test)
+
+# oxphos
+test = matrix( c(15404, 1330, 76, 2), nrow=2, ncol=2) 
+chisq.test(test)
+
+# MT GO term
+test = matrix( c(15404, 1330, 1667, 182), nrow=2, ncol=2) 
+chisq.test(test)
+
+# MT GO term single copy
+test = matrix( c(15404, 1330, 1013, 61), nrow=2, ncol=2) 
+chisq.test(test)
+
+# orthologs single copy
+test = matrix( c(15404, 1330, 12176, 995), nrow=2, ncol=2) 
+chisq.test(test)
+
+# orthologs multi copy
+test = matrix( c(15404, 1330, 4706, 447), nrow=2, ncol=2) 
+chisq.test(test)
+
+
+# R maidis
+# HTG
+test = matrix( c(10445, 2456, 14, 6), nrow=2, ncol=2) 
+chisq.test(test)
+
+# mt rRNA
+test = matrix( c(10445, 2456, 40, 2), nrow=2, ncol=2) 
+chisq.test(test)
+
+# mt rRNA
+test = matrix( c(10445, 2456, 40, 2), nrow=2, ncol=2) 
+chisq.test(test)
+
+# nuc rRNA
+test = matrix( c(10445, 2456, 87, 6), nrow=2, ncol=2) 
+chisq.test(test)
+
+# oxphos
+test = matrix( c(10445, 2456, 83, 7), nrow=2, ncol=2) 
+chisq.test(test)
+
+# mtGO
+test = matrix( c(10445, 2456, 1007, 168), nrow=2, ncol=2) 
+chisq.test(test)
+
+# mtGO single copy
+test = matrix( c(10445, 2456, 898, 126), nrow=2, ncol=2) 
+chisq.test(test)
+
+# orthologs multi copy
+test = matrix( c(10445, 2456, 1123, 726), nrow=2, ncol=2) 
+chisq.test(test)
+
+# orthologs single copy
+test = matrix( c(10445, 2456, 8437, 1757), nrow=2, ncol=2) 
+chisq.test(test)
+
+
+# Drosophila
+# mt rRNA
+test = matrix( c(14743, 2607, 62, 12), nrow=2, ncol=2) 
+chisq.test(test)
+
+# mt rRNA
+test = matrix( c(14743, 2607, 140, 28), nrow=2, ncol=2) 
+chisq.test(test)
+
+test = matrix( c(14743, 2607, 73, 13), nrow=2, ncol=2) 
+chisq.test(test)
+
+test = matrix( c(14743, 2607, 1149, 219), nrow=2, ncol=2) 
+chisq.test(test)
+
+test = matrix( c(14743, 2607, 529, 102), nrow=2, ncol=2) 
+chisq.test(test)
+
+test = matrix( c(14743, 2607, 529, 102), nrow=2, ncol=2) 
+chisq.test(test)
+
+test = matrix( c(14743, 2607, 51, 4185, 724, 20), nrow=3, ncol=2) 
+chisq.test(test)
+
+test = matrix( c(14743, 2607, 7154, 1406), nrow=2, ncol=2) 
+chisq.test(test)
+
+```
+
+```{r set colors}
+
+combined_bar$bias <- factor(combined_bar$bias, levels = c("unexpressed", "unbiased", "male-biased", "female-biased", "asexual-biased"))
+
+autoColors <-
+  setNames( c('#8c8c8c', '#cccccc', '#ffc425', '#00aedb', '#00b159')
+            , levels(aphid_sex_sum3_auto$bias))
+
+```
+
+```{r fig 2. combined bar plot !!!}
+aphid_sex_sum3_auto <- subset(aphid_sex_sum3, auto == "autosomes")
+aphid_sex_sum3_x <- subset(aphid_sex_sum3, auto == "chrX")
+
+sum(aphid_sex_sum3_auto$n) # 12985 genes
+sum(aphid_sex_sum3_x$n) # 4858 genes
+
+aphid_sex_sum3_auto$bias <- factor(aphid_sex_sum3_auto$bias, levels = c("unexpressed", "unbiased", "male-biased", "female-biased", "asexual-biased"))
+aphid_sex_sum3_x$bias <- factor(aphid_sex_sum3_x$bias, levels = c("unexpressed", "unbiased", "male-biased", "female-biased", "asexual-biased"))
+
+psyllid_sex_sum3_auto <- subset(psyllid_sex_sum3, auto == "autosomes")
+sum(psyllid_sex_sum3_auto$n) # 15404 genes
+
+psyllid_sex_sum3_x <- subset(psyllid_sex_sum3, auto == "chrX")
+sum(psyllid_sex_sum3_x$n) # 1330 genes
+
+psyllid_sex_sum3_auto$bias <- factor(psyllid_sex_sum3_auto$bias, levels = c("unexpressed", "unbiased", "male-biased", "female-biased", "asexual-biased"))
+psyllid_sex_sum3_x$bias <- factor(psyllid_sex_sum3_x$bias, levels = c("unexpressed", "unbiased", "male-biased", "female-biased", "asexual-biased"))
+
+f1_p1 <- ggplot(data=aphid_sex_sum3_auto, aes(x = bias, y=n, fill = bias)) + 
+  geom_bar(stat="identity") + 
+  ylab("Number of Genes") +
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,9500) + 
+  scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  scale_color_manual(values = autoColors) + 
+  scale_fill_manual(values = autoColors) + 
+  geom_text(aes(label=perc), position=position_dodge(width=0.9), vjust = -0.1, size = 8) + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), #axis.title.y=element_blank(),
+        axis.text = element_text(size=15), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+f1_p2 <- ggplot(data=aphid_sex_sum3_x, aes(x = bias, y=n, fill = bias)) + 
+  geom_bar(stat="identity") + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,9500) + 
+  ylab("Number of Genes") +
+  scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) +  
+  scale_color_manual(values = autoColors) + 
+  scale_fill_manual(values = autoColors) + 
+  geom_text(aes(label=perc), position=position_dodge(width=0.9), vjust = -0.1, size = 8) + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), #axis.title.y=element_blank(),
+        axis.text = element_text(size=15), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+f1_p3 <- ggplot(data=psyllid_sex_sum3_auto, aes(x = bias, y=n, fill = bias)) + 
+  geom_bar(stat="identity") + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,9500) + 
+  ylab("Number of Genes") +
+  scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  scale_color_manual(values = autoColors) + 
+  scale_fill_manual(values = autoColors) + 
+  geom_text(aes(label=perc), position=position_dodge(width=0.9), vjust = -0.1, size = 8) + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), #axis.title.y=element_blank(),
+        axis.text = element_text(size=15), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+f1_p4 <- ggplot(data=psyllid_sex_sum3_x, aes(x = bias, y=n, fill = bias)) + 
+  geom_bar(stat="identity") + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,9500) + 
+  ylab("Number of Genes") +
+  scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  scale_color_manual(values = autoColors) + 
+  scale_fill_manual(values = autoColors) + 
+  geom_text(aes(label=perc), position=position_dodge(width=0.9), vjust = -0.1, size = 8) + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), #axis.title.y=element_blank(),
+        axis.text = element_text(size=15), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+pdf("fig2_combined_sex_biased_genes.barplot.summary_vertical.pdf", width = 11, height = 8, useDingbats = FALSE)
+grid.arrange(f1_p1, f1_p3, f1_p2, f1_p4, ncol=2)
+dev.off() # Close the file
+```
+
+```{r fig 3 overall dN/dS}
+
+(p1 <- ggplot(data=aphid_kaks_filtered, aes(x = auto, y=KaKs, fill = auto)) + 
+  geom_violin() + 
+  stat_summary(fun.y=median, geom="point", size=2) + 
+  #geom_boxplot(width=0.03) + 
+  #geom_boxplot() +
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,13) + 
+  #scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  #scale_color_manual(values = autoColors) + 
+  #scale_fill_manual(values = autoColors) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.text = element_text(size=20), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none"))
+
+p2 <- ggplot(data=psyllid_kaks_filtered, aes(x = auto, y=KaKs, fill = auto)) + 
+  geom_violin() + 
+  stat_summary(fun.y=median, geom="point", size=2) + 
+  #geom_boxplot(width=0.03) + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,13) + 
+  #scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  #scale_color_manual(values = autoColors) + 
+  #scale_fill_manual(values = autoColors) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.text = element_text(size=20), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+aphid_kaks_filtered$type <- factor(aphid_kaks_filtered$type, c("male-biased", "female-biased", "asexual-biased", "unbiased", "unexpressed"))
+p3 <- ggplot(data=aphid_kaks_filtered, aes(x = type, y=KaKs, fill = type)) + 
+  geom_violin() + 
+  stat_summary(fun.y=median, geom="point", size=2) + 
+  #geom_boxplot(width=0.03) + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,13) + 
+  #scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  scale_color_manual(values = autoColors) + 
+  scale_fill_manual(values = autoColors) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.text = element_text(size=20), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+psyllid_kaks_filtered$type <- factor(psyllid_kaks_filtered$type, c("male-biased", "female-biased", "asexual-biased", "unbiased", "unexpressed"))
+p4 <- ggplot(data=psyllid_kaks_filtered, aes(x = type, y=KaKs, fill = type)) + 
+  geom_violin() + 
+  stat_summary(fun.y=median, geom="point", size=2) + 
+  #geom_boxplot(width=0.03) + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,13) + 
+  #scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  scale_color_manual(values = autoColors) + 
+  scale_fill_manual(values = autoColors) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.text = element_text(size=20), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+pdf("dNdS.overall.pdf", width = 10, height = 5, useDingbats = FALSE) # Open a new pdf file
+grid.arrange(p3, p4, p1, p2, ncol=2)
+dev.off() # Close the file
+
+library(pgirmess)
+kruskal.test(KaKs ~ auto, data=aphid_kaks_filtered)
+kruskal.test(KaKs ~ auto, data=psyllid_kaks_filtered)
+
+kruskal.test(KaKs ~ type, data=aphid_kaks_filtered)
+kruskalmc(aphid_kaks_filtered$KaKs, aphid_kaks_filtered$type, probs = 0.05)
+
+kruskal.test(KaKs ~ type, data=psyllid_kaks_filtered)
+kruskalmc(psyllid_kaks_filtered$KaKs, psyllid_kaks_filtered$type, probs = 0.05)
+
+aphid_kaks_filtered %>% summarise(mean = mean(disp), n = n())
+
+
+```
+
+```{r fig4 jaquery et al. 2018}
+psyllid_sex_expression_onChr_plot <- subset(psyllid_sex_expression_onChr, auto != "mt" & auto != "Carsonella")
+f4_p1 <- ggplot(data=psyllid_sex_expression_onChr_plot, aes(x = auto, y=log10(male_avg+1), fill = auto)) + 
+  geom_violin() + #geom_boxplot(width=0.03) + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  stat_summary(fun.y=median, geom="point", size=2) + 
+  ylim(0,6) + 
+  #scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  #scale_color_manual(values = autoColors) + 
+  #scale_fill_manual(values = autoColors) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.text = element_text(size=20), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+f4_p2 <- ggplot(data=psyllid_sex_expression_onChr_plot, aes(x = auto, y=log10(female_avg+1), fill = auto)) + 
+  geom_violin() + #geom_boxplot(width=0.03) + 
+  stat_summary(fun.y=median, geom="point", size=2) + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  ylim(0,6) + 
+  #scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  #scale_color_manual(values = autoColors) + 
+  #scale_fill_manual(values = autoColors) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.text = element_text(size=20), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+aphid_sex_expression_onChr_plot <- subset(aphid_sex_expression_onChr, auto != "mt")
+f4_p3 <- ggplot(data=aphid_sex_expression_onChr_plot, aes(x = auto, y=log10(male_avg+1), fill = auto)) + 
+  geom_violin() + #geom_boxplot(width=0.03) + 
+  stat_summary(fun.y=median, geom="point", size=2) + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  ylim(0,6) + 
+  #scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  #scale_color_manual(values = autoColors) + 
+  #scale_fill_manual(values = autoColors) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.text = element_text(size=20), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+f4_p4 <- ggplot(data=aphid_sex_expression_onChr_plot, aes(x = auto, y=log10(female_avg+1), fill = auto)) + 
+  geom_violin() + #geom_boxplot(width=0.03) + 
+  stat_summary(fun.y=median, geom="point", size=2) + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  ylim(0,6) +  
+  #scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  #scale_color_manual(values = autoColors) + 
+  #scale_fill_manual(values = autoColors) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.text = element_text(size=20), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+f4_p5 <- ggplot(data=aphid_sex_expression_onChr_plot, aes(x = auto, y=log10(asexual_avg+1), fill = auto)) + 
+  geom_violin() + #geom_boxplot(width=0.03) + 
+  stat_summary(fun.y=median, geom="point", size=2) + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  ylim(0,6) + 
+  #scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  #scale_color_manual(values = autoColors) + 
+  #scale_fill_manual(values = autoColors) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.text = element_text(size=20), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+pdf("fig4_gene_expression_chromosomes_vertical.pdf", width = 6, height = 7, useDingbats = FALSE) # Open a new pdf file
+grid.arrange(f4_p3, f4_p1, 
+             f4_p4, f4_p2, 
+             f4_p5, ncol=2)
+dev.off() # Close the file
+```
+
+```{r Figure S6 plot}
+# aphid
+
+aphid_sex_sum <- read.table('aphid_sex.summary.table', header = T) 
+aphid_sex_sum <- subset(aphid_sex_sum, auto != "mt" & auto != "Carsonella")
+
+aphid_sex_sum$mf_ratio1 = aphid_sex_sum$male_avg/aphid_sex_sum$female_avg
+aphid_sex_sum$mf_ratio2 = aphid_sex_sum$male_avg/aphid_sex_sum$asexual_avg
+
+aphid_sex_sum <- na.omit(aphid_sex_sum)
+aphid_sex_sum <- aphid_sex_sum[!is.na(aphid_sex_sum$auto),]
+aphid_sex_sum <- aphid_sex_sum[!is.na(aphid_sex_sum$mf_ratio1),]
+aphid_sex_sum <- aphid_sex_sum[!is.na(aphid_sex_sum$mf_ratio2),]
+aphid_sex_sum <- aphid_sex_sum[!is.infinite(aphid_sex_sum$mf_ratio1),]
+aphid_sex_sum <- aphid_sex_sum[!is.infinite(aphid_sex_sum$mf_ratio2),]
+
+aphid_sex_sum2 <- aphid_sex_sum
+
+library(dplyr)
+aphid_sex_sum %>% group_by(auto) %>% summarise(Mean=mean(mf_ratio1), Max=max(mf_ratio1), Min=min(mf_ratio1), Median=median(mf_ratio1), Std=sd(mf_ratio1))
+aphid_sex_sum %>% group_by(auto) %>% summarise(Mean=mean(mf_ratio2), Max=max(mf_ratio2), Min=min(mf_ratio2), Median=median(mf_ratio2), Std=sd(mf_ratio2))
+
+median(aphid_sex_sum$mf_ratio1)
+
+median(aphid_sex_sum$mf_ratio1)
+log2(median(aphid_sex_sum$mf_ratio1))
+
+aphid_sex_sum <- subset(aphid_sex_sum, mf_ratio1 != 0)
+aphid_sex_sum <- subset(aphid_sex_sum, mf_ratio2 != 0)
+
+median(aphid_sex_sum$mf_ratio2)
+log2(median(aphid_sex_sum$mf_ratio2))
+
+summary(aphid_sex_sum$mf_ratio2)
+
+library(pgirmess)
+kruskal.test(mf_ratio1 ~ auto, data=aphid_sex_sum)
+kruskal.test(mf_ratio2 ~ auto, data=aphid_sex_sum)
+
+p1 <- ggplot(data=aphid_sex_sum, aes(x = auto, y=log2(mf_ratio1), fill = auto)) + 
+  geom_violin() + #geom_boxplot(width=0.03) + 
+  stat_summary(fun.y=median, geom="point", size=2) + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,6) + 
+  #scale_y_continuous(limits=c(-6, 6), breaks=seq(-6,6,1)) + 
+  #scale_color_manual(values = autoColors) + 
+  #scale_fill_manual(values = autoColors) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.text = element_text(size=20), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none") + 
+  geom_hline(yintercept=0)
+
+p2 <- ggplot(data=aphid_sex_sum, aes(x = auto, y=log2(mf_ratio2), fill = auto)) + 
+  geom_violin() + #geom_boxplot(width=0.03) + 
+  stat_summary(fun.y=median, geom="point", size=2) + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,6) + 
+  #scale_y_continuous(limits=c(-6, 6), breaks=seq(-6,6,1)) + 
+  #scale_color_manual(values = autoColors) + 
+  #scale_fill_manual(values = autoColors) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.text = element_text(size=20), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none") + 
+  geom_hline(yintercept=0)
+
+# psyllid
+psyllid_sex_sum <- read.table('psyllid_sex.summary.table', header = T) 
+psyllid_sex_sum <- subset(psyllid_sex_sum, auto != "mt" & auto != "Carsonella")
+
+psyllid_sex_sum$mf_ratio = psyllid_sex_sum$male_avg/psyllid_sex_sum$female_avg
+nrow(psyllid_sex_sum)
+
+psyllid_sex_sum %>% group_by(auto) %>% summarise(Mean=mean(mf_ratio), Max=max(mf_ratio), Min=min(mf_ratio), Median=median(mf_ratio), Std=sd(mf_ratio))
+
+
+psyllid_sex_sum <- na.omit(psyllid_sex_sum)
+psyllid_sex_sum <- psyllid_sex_sum[!is.infinite(psyllid_sex_sum$mf_ratio),]
+nrow(psyllid_sex_sum)
+psyllid_sex_sum <- subset(psyllid_sex_sum, mf_ratio != 0)
+nrow(psyllid_sex_sum)
+
+median(psyllid_sex_sum$mf_ratio)
+log2(median(psyllid_sex_sum$mf_ratio))
+
+library(pgirmess)
+kruskal.test(mf_ratio ~ auto, data=psyllid_sex_sum)
+
+p3 <- ggplot(data=psyllid_sex_sum, aes(x = auto, y=log2(mf_ratio), fill = auto)) + 
+  geom_violin() + #geom_boxplot(width=0.03) + 
+  stat_summary(fun.y=median, geom="point", size=2) + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,6) + 
+  #scale_y_continuous(limits=c(-10, 10), breaks=seq(-10,10,1)) + 
+  #scale_color_manual(values = autoColors) + 
+  #scale_fill_manual(values = autoColors) + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        axis.text = element_text(size=20), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none") + 
+  geom_hline(yintercept=0)
+
+pdf("figS6_dosage_mf_ratio.pdf", width = 15, height = 5, useDingbats = FALSE) # Open a new pdf file
+grid.arrange(p1, p2, p3,
+             ncol=3)
+dev.off() # Close the file
+
+```
+
+```{r supplementary figure pven}
+loc <- read.table('file.list.combined.pven5', header = F)
+loc_wide <- dcast(loc, V2~V1, value.var = "V3")
+loc_wide
+
+# calculate percentage
+loc_wide = mutate(loc_wide, 
+                V0_total_pct = V0_total / sum(V0_total),
+                V1_0_male_pct = V1_0_male / sum(V1_0_male),
+                V1_1_female_pct = V1_1_female / sum(V1_1_female),
+                V1_3_unbiased_pct = V1_3_unbiased / sum(V1_3_unbiased),
+                V1_4_unexpressed_pct = V1_4_unexpressed / sum(V1_4_unexpressed),
+                
+                V2_0_bact_pct = V2_0_bact / sum(V2_0_bact),
+                V2_1_body_pct = V2_1_body / sum(V2_1_body),
+                V2_2_unbiased_pct = V2_2_unbiased / sum(V2_2_unbiased),
+                V2_3_unexpressed_pct = V2_3_unexpressed / sum(V2_3_unexpressed),
+                
+                V3_0_MTrRNA_pct = V3_0_MTrRNA / sum(V3_0_MTrRNA),
+                V3_1_NUCrRNA_pct = V3_1_NUCrRNA / sum(V3_1_NUCrRNA),
+                
+                V4_0_oxphos_pct = V4_0_oxphos / sum(V4_0_oxphos),
+                V4_1_mtGO_pct = V4_1_mtGO / sum(V4_1_mtGO),
+                V4_2_mtGOsingle_pct = V4_2_mtGOsingle / sum(V4_2_mtGOsingle),
+                
+                V5_0_singleCopy_pct = V5_0_singleCopy / sum(V5_0_singleCopy),
+                V5_1_multiCopy_pct = V5_1_multiCopy / sum(V5_1_multiCopy)
+                )
+
+loc_wide$V1_0_male_odds = loc_wide$V1_0_male_pct/ loc_wide$V0_total_pct
+loc_wide$V1_1_female_odds = loc_wide$V1_1_female_pct/ loc_wide$V0_total_pct
+loc_wide$V1_3_unbiased_odds = loc_wide$V1_3_unbiased_pct/ loc_wide$V0_total_pct
+loc_wide$V1_4_unexpressed_odds = loc_wide$V1_4_unexpressed_pct/ loc_wide$V0_total_pct
+
+loc_wide$V2_0_bact_odds = loc_wide$V2_0_bact_pct/ loc_wide$V0_total_pct
+loc_wide$V2_1_body_odds = loc_wide$V2_1_body_pct/ loc_wide$V0_total_pct
+loc_wide$V2_2_unbiased_odds = loc_wide$V2_2_unbiased_pct/ loc_wide$V0_total_pct
+loc_wide$V2_3_unexpressed_odds = loc_wide$V2_3_unexpressed_pct/ loc_wide$V0_total_pct
+
+loc_wide$V3_0_MTrRNA_odds = loc_wide$V3_0_MTrRNA_pct/ loc_wide$V0_total_pct
+loc_wide$V3_1_NUCrRNA_odds = loc_wide$V3_1_NUCrRNA_pct/ loc_wide$V0_total_pct
+
+loc_wide$V4_0_oxphos_odds = loc_wide$V4_0_oxphos_pct/ loc_wide$V0_total_pct
+loc_wide$V4_1_mtGO_odds = loc_wide$V4_1_mtGO_pct/ loc_wide$V0_total_pct
+loc_wide$V4_2_mtGOsingle_odds = loc_wide$V4_2_mtGOsingle_pct/ loc_wide$V0_total_pct
+
+loc_wide$V5_0_singleCopy_odds = loc_wide$V5_0_singleCopy_pct/ loc_wide$V0_total_pct
+loc_wide$V5_1_multiCopy_odds = loc_wide$V5_1_multiCopy_pct/ loc_wide$V0_total_pct
+
+loc_new <- melt(loc_wide, id.vars = c("V2", "V0_total"), measure.vars = c("V1_0_male_odds", "V1_1_female_odds", "V1_3_unbiased_odds", "V1_4_unexpressed_odds", 
+                                                                          "V2_0_bact_odds", "V2_1_body_odds", "V2_2_unbiased_odds", "V2_3_unexpressed_odds",
+                                                                          "V3_0_MTrRNA_odds", "V3_1_NUCrRNA_odds",
+                                                                          "V4_0_oxphos_odds", "V4_1_mtGO_odds", "V4_2_mtGOsingle_odds",
+                                                                          "V5_0_singleCopy_odds", "V5_1_multiCopy_odds"))
+
+loc_new$chr <- ifelse(loc_new$V2 == "Pven_chrX", "chrX", "auto")
+loc_new$chr = factor(loc_new$chr, levels=c("chrX","auto"))
+loc_new_pven <- loc_new
+
+loc_new_pven2 <- loc_new_pven
+loc_new_pven2$variable = factor(loc_new_pven2$variable, levels=c("V1_0_male_odds","V1_1_female_odds", "V1_2_asexual_odds", "V1_3_unbiased_odds", "V1_4_unexpressed_odds", "V2_0_bact_odds", "V2_1_body_odds","V2_2_unbiased_odds", "V2_3_unexpressed_odds", "V3_0_MTrRNA_odds", "V3_1_NUCrRNA_odds", "V4_0_oxphos_odds", "V4_1_mtGO_odds", "V4_2_mtGOsingle_odds","V5_0_singleCopy_odds", "V5_1_multiCopy_odds"))
+
+# plot like Drown et al. paper
+(ppven <- ggplot(loc_new_pven2, aes(x=variable, y=value, group=variable, color=chr)) + 
+  geom_hline(yintercept=1, linetype="dashed", color = "black", size=2) + 
+  geom_point(size = (loc_new_pven$V0_total/2079)*5, alpha=0.5) + #geom_line(aes(linetype=type, color=variable), size = 1) + 
+  scale_linetype_manual(values=c("twodash", "solid")) +
+  scale_color_manual(values=c("red", "blue", "black")) + 
+  ylab("Odds ratio") + 
+  ylim(0,4) + 
+  theme_classic() + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.text = element_text(size=15), #axis.title.y=element_text(size=15), 
+        axis.text.x = element_text(angle = 90, hjust = 1), 
+        #axis.text.x = element_blank(),
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        legend.position = "none") + 
+    scale_x_discrete(drop=F))
+
+```
+
+```{r supplementary figure apisum}
+loc <- read.table('file.list.combined.apisum5', header = F)
+loc_wide <- dcast(loc, V2~V1, value.var = "V3")
+loc_wide
+
+# calculate percentage
+loc_wide = mutate(loc_wide, 
+                V0_total_pct = V0_total / sum(V0_total),
+                V1_0_male_pct = V1_0_male / sum(V1_0_male),
+                V1_1_female_pct = V1_1_female / sum(V1_1_female),
+                V1_2_asexual_pct = V1_2_asexual / sum(V1_2_asexual),
+                V1_3_unbiased_pct = V1_3_unbiased / sum(V1_3_unbiased),
+                V1_4_unexpressed_pct = V1_4_unexpressed / sum(V1_4_unexpressed),
+                
+                V2_0_bact_pct = V2_0_bact / sum(V2_0_bact),
+                V2_1_body_pct = V2_1_body / sum(V2_1_body),
+                V2_2_unbiased_pct = V2_2_unbiased / sum(V2_2_unbiased),
+                V2_3_unexpressed_pct = V2_3_unexpressed / sum(V2_3_unexpressed),
+                
+                V3_0_MTrRNA_pct = V3_0_MTrRNA / sum(V3_0_MTrRNA),
+                V3_1_NUCrRNA_pct = V3_1_NUCrRNA / sum(V3_1_NUCrRNA),
+                
+                V4_0_oxphos_pct = V4_0_oxphos / sum(V4_0_oxphos),
+                V4_1_mtGO_pct = V4_1_mtGO / sum(V4_1_mtGO),
+                V4_2_mtGOsingle_pct = V4_2_mtGOsingle / sum(V4_2_mtGOsingle),
+                
+                V5_0_singleCopy_pct = V5_0_singleCopy / sum(V5_0_singleCopy),
+                V5_1_multiCopy_pct = V5_1_multiCopy / sum(V5_1_multiCopy)
+                )
+
+loc_wide$V1_0_male_odds = loc_wide$V1_0_male_pct/ loc_wide$V0_total_pct
+loc_wide$V1_1_female_odds = loc_wide$V1_1_female_pct/ loc_wide$V0_total_pct
+loc_wide$V1_2_asexual_odds = loc_wide$V1_2_asexual_pct/ loc_wide$V0_total_pct
+loc_wide$V1_3_unbiased_odds = loc_wide$V1_3_unbiased_pct/ loc_wide$V0_total_pct
+loc_wide$V1_4_unexpressed_odds = loc_wide$V1_4_unexpressed_pct/ loc_wide$V0_total_pct
+
+loc_wide$V2_0_bact_odds = loc_wide$V2_0_bact_pct/ loc_wide$V0_total_pct
+loc_wide$V2_1_body_odds = loc_wide$V2_1_body_pct/ loc_wide$V0_total_pct
+loc_wide$V2_2_unbiased_odds = loc_wide$V2_2_unbiased_pct/ loc_wide$V0_total_pct
+loc_wide$V2_3_unexpressed_odds = loc_wide$V2_3_unexpressed_pct/ loc_wide$V0_total_pct
+
+loc_wide$V3_0_MTrRNA_odds = loc_wide$V3_0_MTrRNA_pct/ loc_wide$V0_total_pct
+loc_wide$V3_1_NUCrRNA_odds = loc_wide$V3_1_NUCrRNA_pct/ loc_wide$V0_total_pct
+
+loc_wide$V4_0_oxphos_odds = loc_wide$V4_0_oxphos_pct/ loc_wide$V0_total_pct
+loc_wide$V4_1_mtGO_odds = loc_wide$V4_1_mtGO_pct/ loc_wide$V0_total_pct
+loc_wide$V4_2_mtGOsingle_odds = loc_wide$V4_2_mtGOsingle_pct/ loc_wide$V0_total_pct
+
+loc_wide$V5_0_singleCopy_odds = loc_wide$V5_0_singleCopy_pct/ loc_wide$V0_total_pct
+loc_wide$V5_1_multiCopy_odds = loc_wide$V5_1_multiCopy_pct/ loc_wide$V0_total_pct
+
+loc_new <- melt(loc_wide, id.vars = c("V2", "V0_total"), measure.vars = c("V1_0_male_odds", "V1_1_female_odds", "V1_2_asexual_odds", "V1_3_unbiased_odds", "V1_4_unexpressed_odds", 
+                                                                          "V2_0_bact_odds", "V2_1_body_odds", "V2_2_unbiased_odds", "V2_3_unexpressed_odds",
+                                                                          "V3_0_MTrRNA_odds", "V3_1_NUCrRNA_odds",
+                                                                          "V4_0_oxphos_odds", "V4_1_mtGO_odds", "V4_2_mtGOsingle_odds",
+                                                                          "V5_0_singleCopy_odds", "V5_1_multiCopy_odds"))
+
+loc_new$chr <- ifelse(loc_new$V2 == "Apisum_chrX", "chrX", "auto")
+loc_new$chr = factor(loc_new$chr, levels=c("chrX","auto"))
+loc_new_apisum <- loc_new
+
+loc_new_apisum2 <- loc_new_apisum
+loc_new_apisum2$variable = factor(loc_new_apisum2$variable, levels=c("V1_0_male_odds","V1_1_female_odds", "V1_2_asexual_odds", "V1_3_unbiased_odds", "V1_4_unexpressed_odds", "V2_0_bact_odds", "V2_1_body_odds","V2_2_unbiased_odds", "V2_3_unexpressed_odds", "V3_0_MTrRNA_odds", "V3_1_NUCrRNA_odds", "V4_0_oxphos_odds", "V4_1_mtGO_odds", "V4_2_mtGOsingle_odds","V5_0_singleCopy_odds", "V5_1_multiCopy_odds"))
+
+# plot like Drown et al. paper
+(papisum <- ggplot(loc_new_apisum2, aes(x=variable, y=value, group=variable, color=chr)) + 
+  geom_hline(yintercept=1, linetype="dashed", color = "black", size=2) + 
+  geom_point(size = (loc_new_apisum$V0_total/5764)*5, alpha=0.5) + # change for A. pisum
+  scale_linetype_manual(values=c("twodash", "solid")) +
+  scale_color_manual(values=c("red", "blue", "black")) + 
+  ylab("Odds ratio") + 
+  ylim(0,4) + 
+  theme_classic() + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.text = element_text(size=15), #axis.title.y=element_text(size=15), 
+        axis.text.x = element_text(angle = 90, hjust = 1), 
+        #axis.text.x = element_blank(),
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        legend.position = "none") + 
+    scale_x_discrete(drop=F))
+
+```
+
+```{r supplementary figure rmaidis}
+loc <- read.table('file.list.combined.rmaidis2', header = F)
+loc_wide <- dcast(loc, V2~V1, value.var = "V3")
+loc_wide
+
+# calculate percentage
+loc_wide = mutate(loc_wide, 
+                V0_total_pct = V0_total / sum(V0_total),
+                
+                V3_0_MTrRNA_pct = V3_0_MTrRNA / sum(V3_0_MTrRNA),
+                V3_1_NUCrRNA_pct = V3_1_NUCrRNA / sum(V3_1_NUCrRNA),
+                
+                V4_0_oxphos_pct = V4_0_oxphos / sum(V4_0_oxphos),
+                V4_1_mtGO_pct = V4_1_mtGO / sum(V4_1_mtGO),
+                V4_2_mtGOsingle_pct = V4_2_mtGOsingle / sum(V4_2_mtGOsingle),
+                
+                V5_0_singleCopy_pct = V5_0_singleCopy / sum(V5_0_singleCopy),
+                V5_1_multiCopy_pct = V5_1_multiCopy / sum(V5_1_multiCopy)
+                )
+
+loc_wide$V3_0_MTrRNA_odds = loc_wide$V3_0_MTrRNA_pct/ loc_wide$V0_total_pct
+loc_wide$V3_1_NUCrRNA_odds = loc_wide$V3_1_NUCrRNA_pct/ loc_wide$V0_total_pct
+
+loc_wide$V4_0_oxphos_odds = loc_wide$V4_0_oxphos_pct/ loc_wide$V0_total_pct
+loc_wide$V4_1_mtGO_odds = loc_wide$V4_1_mtGO_pct/ loc_wide$V0_total_pct
+loc_wide$V4_2_mtGOsingle_odds = loc_wide$V4_2_mtGOsingle_pct/ loc_wide$V0_total_pct
+
+loc_wide$V5_0_singleCopy_odds = loc_wide$V5_0_singleCopy_pct/ loc_wide$V0_total_pct
+loc_wide$V5_1_multiCopy_odds = loc_wide$V5_1_multiCopy_pct/ loc_wide$V0_total_pct
+
+loc_new <- melt(loc_wide, id.vars = c("V2", "V0_total"), measure.vars = c("V3_0_MTrRNA_odds", "V3_1_NUCrRNA_odds",
+                                                                          "V4_0_oxphos_odds", "V4_1_mtGO_odds", "V4_2_mtGOsingle_odds",
+                                                                          "V5_0_singleCopy_odds", "V5_1_multiCopy_odds"))
+
+loc_new$chr <- ifelse(loc_new$V2 == "Rmaidis_chrX", "chrX", "auto")
+loc_new$chr = factor(loc_new$chr, levels=c("chrX","auto"))
+loc_new_rmaidis <- loc_new
+
+loc_new_rmaidis2 <- loc_new_rmaidis
+loc_new_rmaidis2$variable = factor(loc_new_rmaidis2$variable, levels=c("V1_0_male_odds","V1_1_female_odds", "V1_2_asexual_odds", "V1_3_unbiased_odds", "V1_4_unexpressed_odds", "V2_0_bact_odds", "V2_1_body_odds","V2_2_unbiased_odds", "V2_3_unexpressed_odds", "V3_0_MTrRNA_odds", "V3_1_NUCrRNA_odds", "V4_0_oxphos_odds", "V4_1_mtGO_odds", "V4_2_mtGOsingle_odds","V5_0_singleCopy_odds", "V5_1_multiCopy_odds"))
+
+# plot like Drown et al. paper
+(prmaidis <- ggplot(loc_new_rmaidis2, aes(x=variable, y=value, group=variable, color=chr)) + 
+  geom_hline(yintercept=1, linetype="dashed", color = "black", size=2) + 
+  geom_point(size = (loc_new_rmaidis$V0_total/3728)*5, alpha=0.5) +  # scale for R. maidis
+  scale_linetype_manual(values=c("twodash", "solid")) +
+  scale_color_manual(values=c("red", "blue", "black")) + 
+  ylab("Odds ratio") + 
+  ylim(0,4) + 
+  theme_classic() + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.text = element_text(size=15), #axis.title.y=element_text(size=15), 
+        axis.text.x = element_text(angle = 90, hjust = 1), 
+        #axis.text.x = element_blank(),
+        axis.title.x=element_blank(), axis.title.y=element_blank(),
+        legend.position = "none") + 
+    scale_x_discrete(drop=F))
+
+```
+
+```{r supplementary figure rmaidis}
+loc <- read.table('file.list.combined.dmel4', header = F)
+loc_wide <- dcast(loc, V2~V1, value.var = "V3")
+loc_wide
+
+# calculate percentage
+loc_wide = mutate(loc_wide, 
+                V0_total_pct = V0_total / sum(V0_total),
+                
+                V3_0_MTrRNA_pct = V3_0_MTrRNA / sum(V3_0_MTrRNA),
+                V3_1_NUCrRNA_pct = V3_1_NUCrRNA / sum(V3_1_NUCrRNA),
+                
+                V4_0_oxphos_pct = V4_0_oxphos / sum(V4_0_oxphos),
+                V4_1_mtGO_pct = V4_1_mtGO / sum(V4_1_mtGO),
+                V4_2_mtGOsingle_pct = V4_2_mtGOsingle / sum(V4_2_mtGOsingle),
+                
+                V5_0_singleCopy_pct = V5_0_singleCopy / sum(V5_0_singleCopy),
+                V5_1_multiCopy_pct = V5_1_multiCopy / sum(V5_1_multiCopy)
+                )
+
+loc_wide$V3_0_MTrRNA_odds = loc_wide$V3_0_MTrRNA_pct/ loc_wide$V0_total_pct
+loc_wide$V3_1_NUCrRNA_odds = loc_wide$V3_1_NUCrRNA_pct/ loc_wide$V0_total_pct
+
+loc_wide$V4_0_oxphos_odds = loc_wide$V4_0_oxphos_pct/ loc_wide$V0_total_pct
+loc_wide$V4_1_mtGO_odds = loc_wide$V4_1_mtGO_pct/ loc_wide$V0_total_pct
+loc_wide$V4_2_mtGOsingle_odds = loc_wide$V4_2_mtGOsingle_pct/ loc_wide$V0_total_pct
+
+loc_wide$V5_0_singleCopy_odds = loc_wide$V5_0_singleCopy_pct/ loc_wide$V0_total_pct
+loc_wide$V5_1_multiCopy_odds = loc_wide$V5_1_multiCopy_pct/ loc_wide$V0_total_pct
+
+loc_new <- melt(loc_wide, id.vars = c("V2", "V0_total"), measure.vars = c("V3_0_MTrRNA_odds", "V3_1_NUCrRNA_odds",
+                                                                          "V4_0_oxphos_odds", "V4_1_mtGO_odds", "V4_2_mtGOsingle_odds",
+                                                                          "V5_0_singleCopy_odds", "V5_1_multiCopy_odds"))
+
+loc_new$chr <- ifelse(loc_new$V2 == "Dmel_chrX", "chrX",  
+                      ifelse(loc_new$V2 == "Dmel_chrY", "chrY", "auto")) # dmel
+
+loc_new$chr = factor(loc_new$chr, levels=c("chrX","auto","chrY")) # dmel
+loc_new_dmel <- loc_new
+
+loc_new_dmel2 <- loc_new_dmel
+loc_new_dmel2$variable = factor(loc_new_dmel2$variable, levels=c("V1_0_male_odds","V1_1_female_odds", "V1_2_asexual_odds", "V1_3_unbiased_odds", "V1_4_unexpressed_odds", "V2_0_bact_odds", "V2_1_body_odds","V2_2_unbiased_odds", "V2_3_unexpressed_odds", "V3_0_MTrRNA_odds", "V3_1_NUCrRNA_odds", "V4_0_oxphos_odds", "V4_1_mtGO_odds", "V4_2_mtGOsingle_odds","V5_0_singleCopy_odds", "V5_1_multiCopy_odds"))
+
+# plot like Drown et al. paper
+(pdeml <- ggplot(loc_new_dmel2, aes(x=variable, y=value, group=variable, color=chr)) + 
+  geom_hline(yintercept=1, linetype="dashed", color = "black", size=2) + 
+  #geom_point(size = (loc_new_dmel$V0_total/5960)*10, alpha=0.5) + #geom_line(aes(linetype=type, color=variable), size = 1) + 
+  geom_point(size = 4, alpha=0.5) + #geom_line(aes(linetype=type, color=variable), size = 1) + 
+  scale_linetype_manual(values=c("twodash", "solid")) +
+  scale_color_manual(values=c("red", "blue", "black")) + 
+  ylab("Odds ratio") + 
+  ylim(0,4) + 
+  theme_classic() + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.text = element_text(size=15), #axis.title.y=element_text(size=15), 
+        axis.text.x = element_text(angle = 90, hjust = 1), 
+        #axis.text.x = element_blank(),
+        axis.title.x=element_blank(), axis.title.y=element_blank(), 
+        legend.title = element_text(size=25, face="bold"), 
+        legend.text = element_text(size=25), 
+        legend.position = "none") + scale_x_discrete(drop=F))
+
+```
+
+```{r combined plot}
+pdf("figS5_odds_plot.pdf", width = 12, height = 20, useDingbats = FALSE) # Open a new pdf file
+grid.arrange(ppven, papisum, prmaidis, pdeml, ncol=1)
+dev.off() # Close the file
+
+```
+

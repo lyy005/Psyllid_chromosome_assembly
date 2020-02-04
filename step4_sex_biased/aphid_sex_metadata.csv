@@ -1,0 +1,7 @@
+id,dex,con1,con2,con3
+male1,male,male,nonfemale,nonasexual
+male2,male,male,nonfemale,nonasexual
+female1,female,nonmale,female,nonasexual
+female2,female,nonmale,female,nonasexual
+asexual1,asexual,nonmale,nonfemale,asexual
+asexual2,asexual,nonmale,nonfemale,asexual

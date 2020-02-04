@@ -1,0 +1,345 @@
+---
+title: "submission1_sex_biased genes"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+# This script use DESEQ2 to identify sex-biased genes for aphid and psyllid and plot Figure 2
+# Two files aphid_sex.summary.table and psyllid_sex.summary.table are also provided in the same folder. 
+# You can directly start from steps 3.1 and 3.2
+
+```{r step0 - Load required libraries}
+library(DESeq2)  # have to install DESeq2 version 1.20.0 to analyze aphid symbiont samples without replicates
+library(ggplot2)
+library(gridExtra)
+library(dplyr)
+```
+
+```{r step1.1 - aphid use DESeq2 to find sex biased genes}
+
+countData <- read.table('gene_counts.aphid_sex.table', header = TRUE)
+metaData <- read.csv('aphid_sex_metadata.csv', header = TRUE, sep = ",")
+metaData
+
+# run DESEQ2 under 3 conditions
+dds <- DESeqDataSetFromMatrix(
+  countData=countData, 
+  colData=metaData, 
+  design=~con1, # for male biased genes
+  #design=~con2, # for female biased genes
+  #design=~con3, # for asexual biased genes
+  tidy = TRUE)
+
+dds2 <- DESeq(dds)
+resultsNames(dds2)
+
+normalCounts <- data.frame(counts(dds2, normalized=TRUE))
+write.table(normalCounts, file = "aphid_sex.DESeq2_normalized.table")
+
+# Male-biased genes
+res_m <- results(dds2) # male vs non-male
+res_m_sort <- res_m[order(res_m$padj),]
+res_m_sort2 <- subset(res_m_sort, log2FoldChange <= -1 & padj < 0.05) # pick genes that are significantly upregulated and at least 2 fold change
+res_m_sort3 <- as.data.frame(res_m_sort2)
+res_m_sort3$gene = row.names(res_m_sort3)
+head(res_m_sort3)
+tail(res_m_sort3)
+nrow(res_m_sort3) # 2487 male-biased genes in total, including both genes on chromosomes and genes not on assembled chromosomes
+write.table(res_m_sort3, file = "aphid_sex_male.DESeq2_pvalue.table", row.names = T)
+
+# Sexual female-biased genes
+# change the "design" parameter in DESeqDataSetFromMatrix and run again
+res_f <- results(dds2) # female vs non-female
+res_f_sort <- res_f[order(res_f$padj),]
+res_f_sort2 <- subset(res_f_sort, log2FoldChange <= -1 & padj < 0.05) # pick genes that are significantly upregulated and at least 2 fold change
+res_f_sort3 <- as.data.frame(res_f_sort2)
+res_f_sort3$gene = row.names(res_f_sort3)
+head(res_f_sort3)
+tail(res_f_sort3)
+nrow(res_f_sort3) # 1620 female-biased genes in total
+write.table(res_f_sort3, file = "aphid_sex_female.DESeq2_pvalue.table", row.names = T)
+
+# Asexual biased genes
+# change the "design" parameter in DESeqDataSetFromMatrix and run again
+res_a <- results(dds2)
+res_a_sort <- res_a[order(res_a$padj),]
+res_a_sort2 <- subset(res_a_sort, log2FoldChange <= -1 & padj < 0.05) # pick genes that are significantly upregulated and at least 2 fold change
+res_a_sort3 <- as.data.frame(res_a_sort2)
+res_a_sort3$gene = row.names(res_a_sort3)
+head(res_a_sort3)
+nrow(res_a_sort3) # 597 genes
+write.table(res_a_sort3, file = "aphid_sex_asexual.DESeq2_pvalue.table", row.names = T)
+
+# check whether there's overlap between three gene sets
+female_asexual_shared <- res_f_sort3[res_f_sort3$gene %in% res_a_sort3$gene,] 
+nrow(female_asexual_shared) # no genes shared between groups
+```
+
+```{r step1.2 - rename output files with chromosome information}
+# rename the output files with the Perl script: 
+# sh rename.sh
+```
+
+```{r step1.3 - calculate average expression and pick genes on chromosomes}
+# calculate expression number
+aphid_sex_expression <- read.table('aphid_sex.DESeq2_normalized.table.rename', header = T) 
+head(aphid_sex_expression)
+
+aphid_sex_expression$male_avg = (aphid_sex_expression$male1 + aphid_sex_expression$male2)/2
+aphid_sex_expression$female_avg = (aphid_sex_expression$female1 + aphid_sex_expression$female2)/2
+aphid_sex_expression$asexual_avg = (aphid_sex_expression$asexual1 + aphid_sex_expression$asexual2)/2
+
+# only pick genes that are on chromosomes or mitochondrion
+aphid_sex_expression_onChr <- aphid_sex_expression[!is.na(aphid_sex_expression$chr), ]
+aphid_sex_expression_onChr$auto <- ifelse(aphid_sex_expression_onChr$chr == "chrX", "chrX", 
+                    ifelse(aphid_sex_expression_onChr$chr == "mt", "mt", "autosomes"))
+
+aphid_sex_expression_onChr$gene <- row.names(aphid_sex_expression_onChr)
+
+nrow(aphid_sex_expression_onChr) # 17856 genes on chromosomes in total
+head(aphid_sex_expression_onChr)
+
+write.table(aphid_sex_expression_onChr, file = "aphid_sex.DESeq2_normalized.table.rename.avg_exp")
+```
+
+```{r step1.4 - combine gene expression file with sex-bias information from DESEQ2}
+# Note that aphid_sex.summary.table is the output file for this step
+# command
+# perl add_biased_infor.pl aphid_sex_male.DESeq2_pvalue.table.rename aphid_sex_female.DESeq2_pvalue.table.rename aphid_sex_asexual.DESeq2_pvalue.table.rename aphid_sex.DESeq2_normalized.table.rename.avg_exp aphid_sex.summary.table
+```
+
+```{r step2.1 - psyllid use DESeq2 to find sex biased genes}
+countData <- read.table('gene_counts.psyllid_sex.table', header = TRUE)
+head(countData)
+metaData <- read.csv('psyllid_metadata.csv', header = TRUE, sep = ",")
+metaData
+
+dds <- DESeqDataSetFromMatrix(countData=countData, 
+                              colData=metaData, 
+                              design=~dex, tidy = TRUE)
+
+dds2 <- DESeq(dds)
+
+normalCounts <- data.frame(counts(dds2, normalized=TRUE))
+#write.table(normalCounts, file = "aphid_sex.DESeq2.normalized.table")
+write.table(normalCounts, file = "psyllid_sex.DESeq2_normalized.table")
+
+res <- results(dds2)
+head(results(dds2, tidy=TRUE)) #let's look at the results table
+
+res_sex <- res
+test <- subset(res_sex, padj <= 0.05)
+nrow(test) # 2456 genes
+
+res <- res[order(res$pvalue),]
+head(res)
+write.table(res, file = "psyllid_sex.DESeq2_pvalue.table")
+```
+
+```{r step2.2 - add chromosome information to the table}
+# perl replace_one_geneID_DESeq2.psyllid.pl psyllid_sex.DESeq2_normalized.table psyllid_sex.DESeq2_normalized.table.rename 
+# perl replace_one_geneID_DESeq2.psyllid.pl psyllid_sex.DESeq2_pvalue.table psyllid_sex.DESeq2_pvalue.table.rename 
+```
+
+```{r step2.3 - pick significant genes with at least 2 fold change}
+# pick genes that are significantly differently expressed and at least 2x change
+psyllid_sex <- read.table('psyllid_sex.DESeq2_pvalue.table.rename', header = T) 
+
+psyllid_sex_sig <- subset(psyllid_sex, padj <= 0.05) # pick genes that are significantly differently expressed
+psyllid_sex_sig <- subset(psyllid_sex, padj <= 0.05 & abs(log2FoldChange) >= 1) # pick genes that are significantly differently expressed 2x change
+
+nrow(psyllid_sex_sig)   # 2049 genes that are significant and with at least 2 x change
+head(psyllid_sex_sig)
+
+psyllid_sex_sig_m <- subset(psyllid_sex, padj <= 0.05 & log2FoldChange >= 1)
+nrow(psyllid_sex_sig_m) # 1145 male-biased genes that are significant and with at least 2 x change
+psyllid_sex_sig_f <- subset(psyllid_sex, padj <= 0.05 & log2FoldChange <= -1)
+nrow(psyllid_sex_sig_f) # 904 female-biased genes that are significant and with at least 2 x change
+
+psyllid_sex_sig$gene <- row.names(psyllid_sex_sig)
+
+write.table(psyllid_sex_sig, file = "psyllid_sex.DESeq2_pvalue.table.rename.sig")
+
+head(psyllid_sex_sig)
+nrow(psyllid_sex_sig) # 2049 sex biased genes in total
+```
+ 
+```{r step2.4 - add sex-biased information in the expression table}
+psyllid_sex_expression <- read.table('psyllid_sex.DESeq2_normalized.table.rename', header = T) 
+head(psyllid_sex_expression)
+
+psyllid_sex_expression_onChr <- psyllid_sex_expression[!is.na(psyllid_sex_expression$chr), ]
+psyllid_sex_expression_onChr$auto <- ifelse(psyllid_sex_expression_onChr$chr == "chrX", "chrX", 
+                    ifelse(psyllid_sex_expression_onChr$chr == "mt", "mt", 
+                           ifelse(psyllid_sex_expression_onChr$chr == "Carsonella", "Carsonella","autosomes")))
+
+# calculate male average and female average
+psyllid_sex_expression_onChr$male_avg = (psyllid_sex_expression_onChr$trans1 + psyllid_sex_expression_onChr$trans2 + psyllid_sex_expression_onChr$trans3)/3
+psyllid_sex_expression_onChr$female_avg = (psyllid_sex_expression_onChr$trans4 + psyllid_sex_expression_onChr$trans5 + psyllid_sex_expression_onChr$trans6)/3
+
+psyllid_sex_expression_onChr$gene <- row.names(psyllid_sex_expression_onChr)
+
+nrow(psyllid_sex_expression_onChr) # 17123 genes
+head(psyllid_sex_expression_onChr)
+
+write.table(psyllid_sex_expression_onChr, file = "psyllid_sex.DESeq2_pvalue.table.rename.sig.expression.final")
+
+# significant genes on chromosomes
+psyllid_sex_sig_expression <- psyllid_sex_expression_onChr[psyllid_sex_expression_onChr$gene %in% psyllid_sex_sig$gene ,] 
+nrow(psyllid_sex_sig_expression) # 1896 genes on chromosomes
+
+psyllid_sex_sig_expression$auto <- factor(psyllid_sex_sig_expression$auto, c("autosomes", "chrX", "mt", "Carsonella"))
+
+psyllid_sex_sig_expression2 <- psyllid_sex_sig_expression
+psyllid_sex_sig_expression2$sum <- ifelse(psyllid_sex_sig_expression2$male_avg > psyllid_sex_sig_expression2$female_avg, "male-biased", "female-biased")
+
+psyllid_sex_sig_expression3 <- subset(psyllid_sex_sig_expression2, auto != "mt" & auto != "Carsonella" )
+
+nrow(psyllid_sex_sig_expression3) # 1894 genes
+
+write.table(psyllid_sex_sig_expression3, file = "psyllid_sex.DESeq2_pvalue.table.rename.sig.expression.final_biased")
+
+psyllid_sex_sig_expression4 = psyllid_sex_sig_expression3 %>%
+  group_by(auto, sum) %>%
+  summarise (n = n()) %>%
+  mutate(freq = n / sum(n))
+
+```
+
+```{r step2.5 combine sex-biased genes with gene expression data}
+# perl add_biased_infor.pl psyllid_sex.DESeq2_pvalue.table.rename.sig.expression.final_biased psyllid_sex.DESeq2_pvalue.table.rename.sig.expression.final psyllid_sex.summary.table
+```
+
+```{r step 3.1 - prepare aphid sex bias data}
+aphid_sex_sum <- read.table('aphid_sex.summary.table', header = T) 
+
+aphid_sex_sum2 = aphid_sex_sum %>%
+  group_by(auto, bias) %>%
+  summarise (n = n()) %>%
+  mutate(freq = n / sum(n))
+
+aphid_sex_sum3 <- as.data.frame(aphid_sex_sum2)
+aphid_sex_sum3 <- transform(aphid_sex_sum3, plot=paste(auto, bias, sep="_"))
+
+aphid_sex_sum3_auto <- subset(aphid_sex_sum3, auto == "autosomes")
+aphid_sex_sum3_x <- subset(aphid_sex_sum3, auto == "chrX")
+
+sum(aphid_sex_sum3_auto$n) # 12985 genes
+sum(aphid_sex_sum3_x$n) # 4858 genes
+
+aphid_sex_sum3_auto$bias <- factor(aphid_sex_sum3_auto$bias, levels = c("unexpressed", "unbiased", "male-biased", "female-biased", "asexual-biased"))
+aphid_sex_sum3_x$bias <- factor(aphid_sex_sum3_x$bias, levels = c("unexpressed", "unbiased", "male-biased", "female-biased", "asexual-biased"))
+```
+
+```{r step3.2 - prepare psyllid sex bias data}
+psyllid_sex_sum <- read.table('psyllid_sex.summary.table', header = T) 
+
+psyllid_sex_sum2 = psyllid_sex_sum %>%
+  group_by(auto, bias) %>%
+  summarise (n = n()) %>%
+  mutate(freq = n / sum(n))
+
+psyllid_sex_sum3 <- as.data.frame(psyllid_sex_sum2)
+psyllid_sex_sum3 <- transform(psyllid_sex_sum3, plot=paste(auto, bias, sep="_"))
+
+psyllid_sex_sum3$plot <- factor(psyllid_sex_sum3$plot, levels = c("autosomes_unexpressed", "autosomes_unbiased", "autosomes_male-biased", "autosomes_female-biased", "chrX_unexpressed", "chrX_unbiased", "chrX_male-biased", "chrX_female-biased"))
+
+
+psyllid_sex_sum3_auto <- subset(psyllid_sex_sum3, auto == "autosomes")
+sum(psyllid_sex_sum3_auto$n) # 15404 genes
+
+psyllid_sex_sum3_x <- subset(psyllid_sex_sum3, auto == "chrX")
+sum(psyllid_sex_sum3_x$n) # 1330 genes
+
+psyllid_sex_sum3_auto$bias <- factor(psyllid_sex_sum3_auto$bias, levels = c("unexpressed", "unbiased", "male-biased", "female-biased", "asexual-biased"))
+psyllid_sex_sum3_x$bias <- factor(psyllid_sex_sum3_x$bias, levels = c("unexpressed", "unbiased", "male-biased", "female-biased", "asexual-biased"))
+```
+
+```{r step3.3 - plot Figure 2 number and percentage of genes }
+f1_p1 <- ggplot(data=aphid_sex_sum3_auto, aes(x = bias, y=n, fill = bias)) + 
+  geom_bar(stat="identity") + 
+  ylab("Number of Genes") +
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,9500) + 
+  scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  scale_color_manual(values = autoColors) + 
+  scale_fill_manual(values = autoColors) + 
+  geom_text(aes(label=perc), position=position_dodge(width=0.9), vjust = -0.1, size = 8) + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), #axis.title.y=element_blank(),
+        axis.text = element_text(size=15), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+f1_p2 <- ggplot(data=aphid_sex_sum3_x, aes(x = bias, y=n, fill = bias)) + 
+  geom_bar(stat="identity") + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,9500) + 
+  ylab("Number of Genes") +
+  scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) +  
+  scale_color_manual(values = autoColors) + 
+  scale_fill_manual(values = autoColors) + 
+  geom_text(aes(label=perc), position=position_dodge(width=0.9), vjust = -0.1, size = 8) + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), #axis.title.y=element_blank(),
+        axis.text = element_text(size=15), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+f1_p3 <- ggplot(data=psyllid_sex_sum3_auto, aes(x = bias, y=n, fill = bias)) + 
+  geom_bar(stat="identity") + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,9500) + 
+  ylab("Number of Genes") +
+  scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  scale_color_manual(values = autoColors) + 
+  scale_fill_manual(values = autoColors) + 
+  geom_text(aes(label=perc), position=position_dodge(width=0.9), vjust = -0.1, size = 8) + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), #axis.title.y=element_blank(),
+        axis.text = element_text(size=15), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+f1_p4 <- ggplot(data=psyllid_sex_sum3_x, aes(x = bias, y=n, fill = bias)) + 
+  geom_bar(stat="identity") + 
+  #coord_flip() + scale_x_discrete(limits = rev(levels(combined_bar$plot))) + 
+  #ylim(0,9500) + 
+  ylab("Number of Genes") +
+  scale_y_continuous(limits=c(0, 8000), breaks=seq(0,8000,1000)) + 
+  scale_color_manual(values = autoColors) + 
+  scale_fill_manual(values = autoColors) + 
+  geom_text(aes(label=perc), position=position_dodge(width=0.9), vjust = -0.1, size = 8) + 
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.title.x=element_blank(), #axis.title.y=element_blank(),
+        axis.text = element_text(size=15), 
+        text = element_text(size=20), 
+        #axis.text.x = element_text(angle = 90, hjust = 1),
+        axis.text.x=element_blank(),
+        legend.position = "none")
+
+pdf("fig2_combined_sex_biased_genes.barplot.summary_vertical.pdf", width = 11, height = 8, useDingbats = FALSE)
+grid.arrange(f1_p1, f1_p3, f1_p2, f1_p4, ncol=2)
+dev.off() # Close the file
+```

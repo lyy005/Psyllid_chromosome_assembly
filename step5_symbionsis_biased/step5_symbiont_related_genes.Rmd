@@ -1,0 +1,132 @@
+---
+title: "step5_symbiont_related_genes"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r step1.1 - aphid - DESEQ2}
+countData <- read.table('gene_counts.aphid_symbiont.table', header = TRUE)
+head(countData)
+metaData <- read.csv('aphid_metadata.csv', header = TRUE, sep = ",")
+metaData
+
+dds <- DESeqDataSetFromMatrix(countData=countData, 
+                              colData=metaData, 
+                              design=~dex, tidy = TRUE)
+dds
+dds2 <- DESeq(dds)
+
+res <- results(dds2)
+head(results(dds2, tidy=TRUE)) #let's look at the results table
+
+res <- res[order(res$pvalue),]
+head(res)
+write.table(res, file = "aphid_symbiosis.DESeq2_pvalue.table")
+
+normalCounts <- data.frame(counts(dds2, normalized=TRUE))
+write.table(normalCounts, file = "aphid_symbiosis.DESeq2_normalized.table")
+```
+
+```{r step1.2 - aphid - significant genes}
+
+# bactericyte enriched genes
+aphid_sym <- read.table('aphid_symbiosis.DESeq2_pvalue.table.rename', header = T) 
+
+aphid_sym_sig <- subset(aphid_sym, pvalue <= 0.05 & log2FoldChange <= -1)
+nrow(aphid_sym_sig)  # 162 genes that are significantly upregulated with at least 2 fold change
+head(aphid_sym_sig)
+
+aphid_sym_sig$gene <- row.names(aphid_sym_sig)
+head(aphid_sym_sig)
+
+write.table(aphid_sym_sig, file = "aphid_symbiosis_sym.DESeq2_pvalue.table.rename.sig")
+
+# body enriched genes
+aphid_body_sig <- subset(aphid_sym, pvalue <= 0.05 & log2FoldChange >= 1)
+nrow(aphid_body_sig)  # 616 genes that are significantly upregulated in body with at least 2 fold change
+head(aphid_body_sig)
+
+aphid_body_sig$gene <- row.names(aphid_body_sig)
+head(aphid_body_sig)
+
+write.table(aphid_body_sig, file = "aphid_symbiosis_body.DESeq2_pvalue.table.rename.sig")
+```
+
+```{r step2.1 - psyllid - DESEQ2}
+countData <- read.table('gene_counts.psyllid_symbiont.table', header = TRUE)
+head(countData)
+metaData <- read.csv('psyllid_sloan_metadata.csv', header = TRUE, sep = ",")
+metaData
+
+dds <- DESeqDataSetFromMatrix(countData=countData, 
+                              colData=metaData, 
+                              design=~dex, tidy = TRUE)
+
+dds2 <- DESeq(dds)
+
+normalCounts <- data.frame(counts(dds2, normalized=TRUE))
+write.table(normalCounts, file = "psyllid_symbiont.DESeq2_normalized.table")
+
+res <- results(dds2)
+head(results(dds2, tidy=TRUE)) #let's look at the results table
+
+res <- res[order(res$pvalue),]
+head(res)
+write.table(res, file = "psyllid_symbiosis.DESeq2_pvalue.table")
+
+res_sym <- res
+test <- subset(res_sym, padj <= 0.05)
+nrow(test)
+```
+
+```{r step2.2 - psyllid - significant genes}
+# bact vs body
+psyllid_sym <- read.table('psyllid_symbiosis.DESeq2_pvalue.table.rename', header = T)
+
+psyllid_sym_sig <- subset(psyllid_sym, padj <= 0.05 & log2FoldChange <= -1) # pick genes that are significantly differently expressed
+
+nrow(psyllid_sym_sig)   # 2167 with 2x change
+head(psyllid_sym_sig)
+
+psyllid_sym_sig$gene <- row.names(psyllid_sym_sig)
+head(psyllid_sym_sig)
+
+psyllid_body_sig <- subset(psyllid_sym, padj <= 0.05 & log2FoldChange >= 1) # pick genes that are significantly differently expressed
+nrow(psyllid_body_sig)   # 3678 with 2x change 
+head(psyllid_body_sig)
+
+psyllid_body_sig$gene <- row.names(psyllid_body_sig)
+head(psyllid_body_sig)
+
+summary(psyllid_sym_sig$chr)
+summary(psyllid_body_sig$chr)
+
+write.table(psyllid_sym_sig, file = "psyllid_symbiosis_sym.DESeq2_pvalue.table.rename.sig")
+write.table(psyllid_body_sig, file = "psyllid_symbiosis_body.DESeq2_pvalue.table.rename.sig")
+
+```
+
+```{r step2 - add chromosome information to the significant genes}
+# perl add_biased_infor.pl aphid_symbiosis_sym.DESeq2_pvalue.table.rename.sig aphid_symbiosis_body.DESeq2_pvalue.table.rename.sig aphid_symbiosis.DESeq2_normalized.table.rename aphid_symbiont.summary.table
+
+# perl add_biased_infor.pl psyllid_symbiosis_sym.DESeq2_pvalue.table.rename.sig psyllid_symbiosis_body.DESeq2_pvalue.table.rename.sig psyllid_symbiont.DESeq2_normalized.table.rename psyllid_symbiont.summary.table
+```
