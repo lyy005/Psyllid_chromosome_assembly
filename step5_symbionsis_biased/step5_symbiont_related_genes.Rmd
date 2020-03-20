@@ -103,7 +103,7 @@ myTMM = tmm(assayData(mydata)$exprs, long = 1000, lc = 0)
 head(myTMM[, 1:2])
 
 mydata2 <- readData(data = myTMM, factors = myfactors, length = exonLen)
-myresults <- noiseq(mydata2, factor = "Tissue", k = NULL, norm = "n", pnr = 0.2, nss = 5, v = 0.02, lc = 1, replicates = "no")
+myresults <- noiseq(mydata2, factor = "Tissue", k = NULL, norm = "n", pnr = 0.2, nss = 5, v = 0.02, lc = 0, replicates = "no")
 
 head(myresults@results[[1]])
  
