@@ -71,6 +71,63 @@ head(aphid_body_sig)
 write.table(aphid_body_sig, file = "aphid_symbiosis_body.DESeq2_pvalue.table.rename.sig")
 ```
 
+```{r step1.1b - aphid - significant genes with NOISeq}
+library(NOISeq)
+
+countData <- read.table('gene_counts.aphid_symbiont.table', header = TRUE)
+mycounts <- countData
+row.names(mycounts) <- mycounts$gene
+mycounts <- mycounts[ -c(1) ]
+
+head(mycounts)
+
+myfactors = data.frame(Tissue = c("bac", "body"))
+myfactors
+
+# make data class
+# mydata <- readData(data = mycounts, factors = myfactors) # first trial
+
+# add length info
+mydata <- readData(data = mycounts, factors = myfactors, length = exonLen) 
+
+# use normalized info
+mydata <- readData(data = countData_norm, factors = myfactors, length = exonLen)
+
+# explore data
+mycountsbio = dat(mydata, factor = NULL, type = "countsbio")
+explo.plot(mycountsbio, toplot = 1, samples = 1, plottype = "boxplot")
+explo.plot(mycountsbio, samples = NULL, plottype = "boxplot")
+explo.plot(mycountsbio, toplot = 1, samples = NULL, plottype = "barplot")
+
+myTMM = tmm(assayData(mydata)$exprs, long = 1000, lc = 0)
+head(myTMM[, 1:2])
+
+mydata2 <- readData(data = myTMM, factors = myfactors, length = exonLen)
+myresults <- noiseq(mydata2, factor = "Tissue", k = NULL, norm = "n", pnr = 0.2, nss = 5, v = 0.02, lc = 1, replicates = "no")
+
+head(myresults@results[[1]])
+ 
+myresults.deg = degenes(myresults, q = 0.9, M = NULL) # 2592 differentially expressed features
+myresults.deg1 = degenes(myresults, q = 0.9, M = "up") # 600 differentially expressed features (up in first condition) bacteriocyte
+myresults.deg2 = degenes(myresults, q = 0.9, M = "down") # 1992 differentially expressed features (down in first condition) body
+
+# M column is log2FoldChange, D is the different: bac_mean - body_mean
+nrow(myresults.deg1) # 600 genes 
+aphid_bac_sig <- subset(myresults.deg1, myresults.deg1$M >= 1)
+nrow(aphid_bac_sig) # 600 genes with 2x change
+
+nrow(myresults.deg2) # 1992 genes
+aphid_body_sig <- subset(myresults.deg2, myresults.deg2$M <= -1)
+nrow(aphid_body_sig) # 1992 genes with 2x change
+
+# all genes (normalized using TMM approach)
+write.table(myTMM, file = "aphid_symbiosis.NOISeq_normalized.table")
+# bacteriocyte biased
+write.table(aphid_bac_sig, file = "aphid_symbiosis_sym.NOISeq.sig")
+# body biased
+write.table(aphid_body_sig, file = "aphid_symbiosis_body.NOISeq.sig")
+```
+
 ```{r step2.1 - psyllid - DESEQ2}
 countData <- read.table('gene_counts.psyllid_symbiont.table', header = TRUE)
 head(countData)

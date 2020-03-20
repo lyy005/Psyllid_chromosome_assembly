@@ -612,9 +612,6 @@ psyllid_sex_sum <- subset(psyllid_sex_sum, auto != "mt" & auto != "Carsonella")
 psyllid_sex_sum$mf_ratio = psyllid_sex_sum$male_avg/psyllid_sex_sum$female_avg
 nrow(psyllid_sex_sum)
 
-psyllid_sex_sum %>% group_by(auto) %>% summarise(Mean=mean(mf_ratio), Max=max(mf_ratio), Min=min(mf_ratio), Median=median(mf_ratio), Std=sd(mf_ratio))
-
-
 psyllid_sex_sum <- na.omit(psyllid_sex_sum)
 psyllid_sex_sum <- psyllid_sex_sum[!is.infinite(psyllid_sex_sum$mf_ratio),]
 nrow(psyllid_sex_sum)
@@ -623,6 +620,8 @@ nrow(psyllid_sex_sum)
 
 median(psyllid_sex_sum$mf_ratio)
 log2(median(psyllid_sex_sum$mf_ratio))
+
+psyllid_sex_sum %>% group_by(auto) %>% summarise(Mean=mean(mf_ratio), Max=max(mf_ratio), Min=min(mf_ratio), Median=median(mf_ratio), Std=sd(mf_ratio))
 
 library(pgirmess)
 kruskal.test(mf_ratio ~ auto, data=psyllid_sex_sum)
