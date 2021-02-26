@@ -2,6 +2,10 @@
 
 This document is a walkthrough of the methods and code used to analyze the chromosome-level genome assembly. In the paper, we used HiC and Chicago libraries to build the chromosome-level assembly and analyzed gene content and sequence evolution of chromosomes. We also produced male and female resequencing data for detecting the X chromosome; male and female RNA-seq data for identifying sex-biased genes.
 
+The annotation files can be found under step0_genome_annotation_files/. The chromosome-level genome assembly is available on NCBI: https://www.ncbi.nlm.nih.gov/genome/14032?genome_assembly_id=891587
+
+The chromosome-level genome assembly matches the annotation files is available on figshare: https://doi.org/10.6084/m9.figshare.14122592
+
 ## 1 - Genome Assembly Verification
 
 ### 1.1 - BUSCO analysis
