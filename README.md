@@ -119,5 +119,5 @@ The chromosome-level genome assembly matches the annotation files is available o
 
 ## Citation
 
-Li Y., Zhang B., Moran N.A., 2020. The Aphid X Chromosome is a Dangerous Place for Functionally Important Genes: Diverse Evolution of Hemipteran Genomes Based on Chromosome-level Assemblies.
+Li Y., Zhang B., Moran N.A., 2020. The Aphid X Chromosome is a Dangerous Place for Functionally Important Genes: Diverse Evolution of Hemipteran Genomes Based on Chromosome-level Assemblies. Molecular Biology and Evolution. https://doi.org/10.1093/molbev/msaa095
 
